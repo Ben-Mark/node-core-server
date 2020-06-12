@@ -22,4 +22,4 @@ ENV PORT=${PORT_ARG}
 EXPOSE ${PORT}
 EXPOSE 9229
 
-CMD [ "sh", "-c", "node --inspect=0.0.0.0:9229 app.js" ]
+CMD [ "sh", "-c", "node --inspect=0.0.0.0:9229 ./bin/www" ]
