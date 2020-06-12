@@ -1,0 +1,5 @@
+node_modules/**
+.idea/**
+**.tgz
+package-lock.json
+policies.json

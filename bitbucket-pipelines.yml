@@ -1,0 +1,53 @@
+# This is a sample build configuration for Docker.
+# Check our guides at https://confluence.atlassian.com/x/O1toN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image:
+  name: 846883770443.dkr.ecr.eu-central-1.amazonaws.com/bitbucket-pipeline-images:node_v12.12.0-main
+  aws:
+    access-key: $AWS_ACCESS_KEY_ID
+    secret-key: $AWS_SECRET_ACCESS_KEY
+
+pipelines:
+  #  default: # Pipelines that are triggered automatically
+  #    - step:
+  #        name: test, build
+  #        script:
+  #          - npm install
+  #          - npm test
+
+  custom: # Pipelines that are triggered manually
+    reactiveframes:
+      - variables:
+          #          - name: CLIENT_NAME
+          - name: ENVIRONMENT
+          - name: CLOUD_PROVIDER
+          - name: AWS_DEPLOY_REGION
+      #      - step:
+      #          name: test, build
+      #          script:
+      #            - echo "$ENVIRONMENT"
+      #            - echo "$CLOUD_PROVIDER"
+      #            - npm install
+      #            - npm test
+
+      - step:
+          name: build & push dockers
+          services:
+            - docker
+          script:
+            - echo $(docker --version)
+            - echo "$CLIENT_NAME"
+            - echo "$ENVIRONMENT"
+            - echo "$AWS_DEPLOY_REGION"
+            - git clone git@bitbucket.org:reactiveframesinc/bitbucket-shell-scripts.git
+            - source bitbucket-shell-scripts/deployment/aws_auth.sh
+            - source bitbucket-shell-scripts/deployment/init.sh
+            - docker build -t $IMAGE_NAME --build-arg PORT_ARG="$PORT" .
+            - source bitbucket-shell-scripts/deployment/dockers_deploy.sh
+            - source bitbucket-shell-scripts/deployment/package.sh "$ENVIRONMENT"
+            - echo "$(cat deploy_env_variables )"
+            - source bitbucket-shell-scripts/deployment/aws_codedeploy.sh "$ENVIRONMENT"
+#            - echo $(cat bitbucket-shell-scripts/deployment/azure_deploy.sh)
+#            - source bitbucket-shell-scripts/deployment/azure_deploy.sh "$CLIENT_NAME" "$ENVIRONMENT"
