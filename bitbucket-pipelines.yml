@@ -21,7 +21,6 @@ pipelines:
     reactiveframes:
       - variables:
           #          - name: CLIENT_NAME
-          - name: ENVIRONMENT
           - name: CLOUD_PROVIDER
           - name: AWS_DEPLOY_REGION
       #      - step:
@@ -37,6 +36,7 @@ pipelines:
           services:
             - docker
           script:
+            - export ENVIRONMENT=ytl-production
             - echo $(docker --version)
             - echo "$CLIENT_NAME"
             - echo "$ENVIRONMENT"
