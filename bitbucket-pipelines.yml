@@ -17,8 +17,9 @@ pipelines:
   #          - npm install
   #          - npm test
 
-  custom: # Pipelines that are triggered manually
-    reactiveframes:
+#  custom: # Pipelines that are triggered manually
+#    reactiveframes:
+   default:
       - variables:
           #          - name: CLIENT_NAME
           - name: CLOUD_PROVIDER
