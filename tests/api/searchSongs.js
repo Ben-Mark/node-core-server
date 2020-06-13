@@ -12,7 +12,7 @@ test("API: search youtube song with likes percentages", async t => {
             searchWord: "2pac%202020%20remix"
         })
         .then((result) => {
-            t.assert(result.body.leading === 10)
+            t.assert(result.body.length === 10)
         })
         .catch(err => {
             console.error(err);
