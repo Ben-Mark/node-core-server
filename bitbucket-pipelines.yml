@@ -20,23 +20,25 @@ pipelines:
 #  custom: # Pipelines that are triggered manually
 #    reactiveframes:
    default:
-      - variables:
-          #          - name: CLIENT_NAME
-          - name: CLOUD_PROVIDER
-          - name: AWS_DEPLOY_REGION
-      #      - step:
-      #          name: test, build
-      #          script:
-      #            - echo "$ENVIRONMENT"
-      #            - echo "$CLOUD_PROVIDER"
-      #            - npm install
-      #            - npm test
+#      - variables:
+#          #          - name: CLIENT_NAME
+#          - name: CLOUD_PROVIDER
+#          - name: AWS_DEPLOY_REGION
+#      #      - step:
+#      #          name: test, build
+#      #          script:
+#      #            - echo "$ENVIRONMENT"
+#      #            - echo "$CLOUD_PROVIDER"
+#      #            - npm install
+#      #            - npm test
 
       - step:
           name: build & push dockers
           services:
             - docker
           script:
+            - export CLOUD_PROVIDER=aws
+            - export AWS_DEPLOY_REGION=frankfurt
             - export ENVIRONMENT=ytl-production
             - echo $(docker --version)
             - echo "$CLIENT_NAME"
